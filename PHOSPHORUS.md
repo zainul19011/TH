@@ -87,7 +87,8 @@ High. Given that this threat has the potential to cause significant financial an
 # Hunting queries
 * DEV-0270 malicious PowerShell usage
 Sigma queries
-``` title: Dev-0270 Malicious Powershell usage
+```
+title: Dev-0270 Malicious Powershell usage
 id: 422ca2bf-598b-4872-82bb-5f7e8fa731e7
 description: |
   'DEV-0270 heavily uses powershell to achieve their objective at various stages of their attack.
