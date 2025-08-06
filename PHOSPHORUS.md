@@ -80,9 +80,6 @@ High. Given that this threat has the potential to cause significant financial an
 3. Isolate Host: Immediately isolate the infected host from the network to prevent lateral movement.
 
 4. Investigate:
-
-Check for any newly created or modified user accounts, especially DefaultAccount.
-
-Examine the process activity that triggered the alert, including the process chain, user, and full command line.
-
-Use the hunting queries provided by Microsoft (e.g., in Microsoft Sentinel or Microsoft 365 Defender) to search for other TTPs across your network.
+** Check for any newly created or modified user accounts, especially DefaultAccount.
+** Examine the process activity that triggered the alert, including the process chain, user, and full command line.
+** Use the hunting queries provided by Microsoft (e.g., in Microsoft Sentinel or Microsoft 365 Defender) to search for other TTPs across your network.
