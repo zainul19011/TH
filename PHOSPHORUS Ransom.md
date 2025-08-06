@@ -73,13 +73,12 @@ High. Given that this threat has the potential to cause significant financial an
 
 
 # Response
-1. In the event that this alert is triggered, the following response procedures are recommended:
+In the event that this alert is triggered, the following response procedures are recommended:
+1. Apply Mitigation: Immediately apply patches for Exchange Server (ProxyLogon) and Fortinet vulnerabilities if the host is vulnerable.
 
-2. Apply Mitigation: Immediately apply patches for Exchange Server (ProxyLogon) and Fortinet vulnerabilities if the host is vulnerable.
+2. Isolate Host: Immediately isolate the infected host from the network to prevent lateral movement.
 
-3. Isolate Host: Immediately isolate the infected host from the network to prevent lateral movement.
-
-4. Investigate:
+3. Investigate:
 * Check for any newly created or modified user accounts, especially DefaultAccount.
 * Examine the process activity that triggered the alert, including the process chain, user, and full command line.
 * Use the hunting queries provided by Microsoft (e.g., in Microsoft Sentinel or Microsoft 365 Defender) to search for other TTPs across your network.
@@ -146,4 +145,25 @@ tags:
   - attack.t1048
   - attack.t1562
   - Dev-0270
+```
+```
+SELECT * FROM events
+WHERE (logsourceid IN (SELECT logsourceid FROM logsources WHERE logsourceid=6 OR logsourceid=8) AND eventid = '4688')
+AND (
+    (
+        processname ILIKE '%powershell.exe' AND processcommandline ILIKE '%Add-MpPreference%' AND processcommandline ILIKE '%ExclusionPath%' AND processcommandline ILIKE '%ProgramData%'
+    )
+    OR
+    (
+        processname ILIKE '%powershell.exe' AND processcommandline ILIKE '%Add-PSSnapin%' AND processcommandline ILIKE '%Get-Recipient%' AND processcommandline ILIKE '%EmailAddresses%'
+    )
+    OR
+    (
+        processname ILIKE '%powershell.exe' AND processcommandline ILIKE '%Invoke-WebRequest%' AND processcommandline ILIKE '%dllhost.exe%' AND processcommandline ILIKE '%OutFile%'
+    )
+    OR
+    (
+        processname ILIKE '%powershell.exe' AND processcommandline ILIKE '%localgroup%' AND processcommandline ILIKE '%/add%' AND processcommandline ILIKE '%$rdp=%'
+    )
+)
 ```
