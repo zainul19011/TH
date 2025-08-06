@@ -146,7 +146,7 @@ tags:
   - attack.t1562
   - Dev-0270
 ```
-* DEV-0270 malicious PowerShell usage
+* DEV-0270 malicious PowerShell usage Qradar 
   
 ```
 SELECT * FROM events
