@@ -146,6 +146,8 @@ tags:
   - attack.t1562
   - Dev-0270
 ```
+* DEV-0270 malicious PowerShell usage
+  
 ```
 SELECT * FROM events
 WHERE (logsourceid IN (SELECT logsourceid FROM logsources WHERE logsourceid=6 OR logsourceid=8) AND eventid = '4688')
