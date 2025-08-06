@@ -83,3 +83,66 @@ High. Given that this threat has the potential to cause significant financial an
 * Check for any newly created or modified user accounts, especially DefaultAccount.
 * Examine the process activity that triggered the alert, including the process chain, user, and full command line.
 * Use the hunting queries provided by Microsoft (e.g., in Microsoft Sentinel or Microsoft 365 Defender) to search for other TTPs across your network.
+
+# Hunting queries
+* DEV-0270 malicious PowerShell usage
+Sigma queries
+``` title: Dev-0270 Malicious Powershell usage
+id: 422ca2bf-598b-4872-82bb-5f7e8fa731e7
+description: |
+  'DEV-0270 heavily uses powershell to achieve their objective at various stages of their attack.
+  This rule detects the use of specific malicious PowerShell commands tied to this actor,
+  including disabling security features, email data exfiltration, and adding users to privileged groups.'
+author: 'Adapted from Microsoft Sentinel Rule'
+date: 2025/08/06
+modified: 2025/08/06
+status: stable
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_disable_mp:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains|all:
+      - 'try'
+      - 'Add-MpPreference'
+      - '-ExclusionPath'
+      - 'ProgramData'
+      - 'catch'
+  selection_exfil_email:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains|all:
+      - 'Add-PSSnapin'
+      - 'Get-Recipient'
+      - '-ExpandProperty'
+      - 'EmailAddresses'
+      - 'SmtpAddress'
+      - '-hidetableheaders'
+  selection_download_dllhost:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains|all:
+      - '$file='
+      - 'dllhost.exe'
+      - 'Invoke-WebRequest'
+      - '-OutFile'
+  selection_add_admin:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains|all:
+      - '$admins='
+      - 'System.Security.Principal.SecurityIdentifier'
+      - 'Translate'
+      - '-split'
+      - 'localgroup'
+      - '/add'
+      - '$rdp='
+  condition: 1 of selection_*
+falsepositives:
+  - Legitimate administrative scripts that perform similar actions.
+level: high
+tags:
+  - attack.exfiltration
+  - attack.defense_evasion
+  - attack.t1048
+  - attack.t1562
+  - Dev-0270
+```
