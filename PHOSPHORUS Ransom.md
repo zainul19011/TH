@@ -55,9 +55,9 @@ Blind spots will occur if:
 # False Positives
 Some false positives may occur due to the use of LOLBins, which are also frequently used by system administrators for routine tasks. Examples include:
 
-An administrator running net user or reg commands for legitimate administrative purposes.
+* An administrator running net user or reg commands for legitimate administrative purposes.
 
-Management scripts running PowerShell commands to configure systems.
+* Management scripts running PowerShell commands to configure systems.
 
 # Validation
 Validation can be performed by running a few of the following commands on a test host (in an isolated environment):
