@@ -39,17 +39,17 @@ reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLo
 # Blind Spots and Assumptions
 This strategy relies on the following assumptions:
 
-Endpoint detection tooling (EDR) like Microsoft 365 Defender is correctly functioning on the system.
+* Endpoint detection tooling (EDR) like Microsoft 365 Defender is correctly functioning on the system.
 
-Process execution and command-line events are being recorded and forwarded to a security system (SIEM).
+* Process execution and command-line events are being recorded and forwarded to a security system (SIEM).
 
-The attacker uses the documented TTPs and does not use more sophisticated obfuscation techniques that would defeat the detection queries.
+* The attacker uses the documented TTPs and does not use more sophisticated obfuscation techniques that would defeat the detection queries.
 
 Blind spots will occur if:
 
-The endpoint detection tooling is tampered with or disabled.
+ - The endpoint detection tooling is tampered with or disabled.
 
-The attacker uses a method that does not generate a specific command-line footprint.
+ - The attacker uses a method that does not generate a specific command-line footprint.
 
 
 # False Positives
